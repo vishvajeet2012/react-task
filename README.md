@@ -22,7 +22,7 @@ Local development preview: [http://localhost:5173](http://localhost:5173) after 
 
 ## Requirements and setup
 
-Node.js 20+ is required. Vercel is pinned to the supported `20.x` major, and the local Vite version requires Node 20.19+ within that major, plus npm. Other versions such as Node 20.0 or 21 are not supported.
+Node.js **24.x** is required for Vercel deployments. The project is pinned to Vercel's current `24.x` build runtime; npm is also required. Vite 8 supports Node 24 for local builds.
 
 ```bash
 npm ci
