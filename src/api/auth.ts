@@ -70,11 +70,12 @@ export async function loginWithOtp({
     token: data.token,
     user: {
       user_id: String(data.user_id ?? ''),
-      user_name: data.user_name?.trim() || 'Karan',
+      user_name:
+        data.user_name?.trim() || data.user_mobile?.trim() || phone || 'Guest',
       user_gender: data.user_gender,
       user_email: data.user_email,
       dial_code: data.dial_code || dial_code,
-      user_mobile: data.user_mobile || phone,
+      user_mobile: data.user_mobile?.trim() || phone,
       member_since: data.member_since,
       email_verified: data.email_verified,
       mobile_verified: data.mobile_verified,

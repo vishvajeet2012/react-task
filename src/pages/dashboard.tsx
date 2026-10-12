@@ -100,7 +100,7 @@ export function DashboardPage() {
             <div className="flex items-center justify-between px-[20px]">
               <div className="flex h-[60px] w-[174px] items-center rounded-b-[20px] bg-background-card pr-md">
                 <p className="truncate font-inter text-lg font-medium text-text opacity-50">
-                  {user?.user_name || 'Karan'}
+                  {user?.user_name?.trim() || user?.user_mobile || 'Guest'}
                 </p>
               </div>
               <div className="flex gap-[10px]">

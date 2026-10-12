@@ -35,7 +35,7 @@ export function DesktopNavbar({
 
   const displayLocation =
     locationLabel ?? getLocationLabel(user?.default_location)
-  const userName = user?.user_name || 'Karan'
+  const userName = user?.user_name?.trim() || user?.user_mobile || 'Guest'
 
   const handleLogout = () => {
     logout()

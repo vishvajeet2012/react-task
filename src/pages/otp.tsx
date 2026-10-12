@@ -3,12 +3,6 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AuthShell } from '../components/auth/auth-shell'
 import { PrimaryButton } from '../components/auth/primary-button'
 import {
-  DEMO_OTP,
-  DEMO_TOKEN,
-  DEMO_USER,
-  isDemoPhone,
-} from '../data/demo'
-import {
   useLoginMutation,
   useRequestOtpMutation,
 } from '../hooks/use-auth'
@@ -17,12 +11,8 @@ import { useAuthStore } from '../store/use-auth-store'
 function formatPhone(phone: string | undefined) {
   const digits = (phone ?? '').replace(/\D/g, '')
 
-  if (isDemoPhone(digits)) {
-    return `+91 ${digits.slice(0, 3)} ${digits.slice(3)}`
-  }
-
   if (digits.length === 0) {
-    return '+91 12345 67890'
+    return 'your mobile number'
   }
 
   if (digits.length <= 5) {
@@ -35,7 +25,6 @@ function formatPhone(phone: string | undefined) {
 export function OtpPage() {
   const navigate = useNavigate()
   const phone = useAuthStore((state) => state.phone)
-  const setAuth = useAuthStore((state) => state.setAuth)
   const inputRef = useRef<HTMLInputElement>(null)
   const [code, setCode] = useState('')
   const [seconds, setSeconds] = useState(30)
@@ -67,17 +56,6 @@ export function OtpPage() {
 
     setValidationError(null)
 
-    if (isDemoPhone(phone)) {
-      if (code !== DEMO_OTP) {
-        setValidationError(`Use ${DEMO_OTP} as the demo OTP`)
-        return
-      }
-
-      setAuth(DEMO_TOKEN, DEMO_USER)
-      void navigate({ to: '/dashboard' })
-      return
-    }
-
     loginMutation.mutate(
       { phone, otp: code, dial_code: '+91' },
       {
@@ -94,11 +72,6 @@ export function OtpPage() {
     }
 
     setValidationError(null)
-
-    if (isDemoPhone(phone)) {
-      setSeconds(30)
-      return
-    }
 
     resendMutation.mutate(
       { phone, dial_code: '+91' },

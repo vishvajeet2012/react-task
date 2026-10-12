@@ -2,14 +2,12 @@ import { useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { AuthShell } from '../components/auth/auth-shell'
 import { PrimaryButton } from '../components/auth/primary-button'
-import { isDemoPhone } from '../data/demo'
 import { useRequestOtpMutation } from '../hooks/use-auth'
 import { useAuthStore } from '../store/use-auth-store'
 
 export function SignUpPage() {
   const navigate = useNavigate()
   const storedPhone = useAuthStore((state) => state.phone)
-  const setPhone = useAuthStore((state) => state.setPhone)
   const [digits, setDigits] = useState(storedPhone)
   const [validationError, setValidationError] = useState<string | null>(null)
   const requestOtpMutation = useRequestOtpMutation()
@@ -17,20 +15,12 @@ export function SignUpPage() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const demoPhone = isDemoPhone(digits)
-
-    if (digits.length !== 10 && !demoPhone) {
+    if (digits.length !== 10) {
       setValidationError('Please enter a valid 10-digit mobile number')
       return
     }
 
     setValidationError(null)
-
-    if (demoPhone) {
-      setPhone(digits, '+91')
-      void navigate({ to: '/otp' })
-      return
-    }
 
     requestOtpMutation.mutate(
       { phone: digits, dial_code: '+91' },

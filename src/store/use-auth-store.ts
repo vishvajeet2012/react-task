@@ -41,6 +41,15 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'fastor-auth',
+      // Reset legacy sessions once so every saved session comes from API login.
+      version: 1,
+      migrate: () => ({
+        phone: '',
+        dialCode: '+91',
+        token: null,
+        user: null,
+        isAuthenticated: false,
+      }),
       storage: createJSONStorage(() => window.localStorage),
       partialize: ({ phone, dialCode, token, user, isAuthenticated }) => ({
         phone,
