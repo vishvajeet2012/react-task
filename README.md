@@ -22,7 +22,7 @@ Local development preview: [http://localhost:5173](http://localhost:5173) after 
 
 ## Requirements and setup
 
-Node.js 20+ is required, specifically **20.19+ or 22.12+** to match Vite's supported Node versions, plus npm. Other versions such as Node 20.0 or 21 are not supported.
+Node.js 20+ is required. Vercel is pinned to the supported `20.x` major, and the local Vite version requires Node 20.19+ within that major, plus npm. Other versions such as Node 20.0 or 21 are not supported.
 
 ```bash
 npm ci
@@ -57,6 +57,18 @@ The dashboard's Best Sellers, promotional banner, and Popular Items use local pr
 Copy `.env.example` to `.env` only when you need to override the default staging URL. POST requests are sent as `application/x-www-form-urlencoded`, and authentication is persisted through the Zustand store.
 
 Local development forwards `/api` requests through the Vite proxy to `https://staging.fastor.ai`. Production uses that staging URL directly unless `VITE_FASTOR_API_URL` is configured; the Vite development proxy is not part of the production build.
+
+### Vercel deployment
+
+Import this repository into Vercel with the repository root as the project root. The committed `vercel.json` sets the build command to `npm run build`, output directory to `dist`, adds the SPA fallback for `/otp`, `/dashboard`, and `/product`, and forwards `/api/*` to the Fastor staging API.
+
+Add this environment variable in Vercel for both **Preview** and **Production**:
+
+```text
+VITE_FASTOR_API_URL=/api
+```
+
+Do not add an API token: the user JWT is returned by login and stored in the browser session. After changing a Vercel environment variable, redeploy so the new value is included in the Vite build.
 
 API errors are shown to the user; failed requests do not create a session or substitute local restaurant records. Legacy saved authentication state is reset once after this update, so existing users may need to log in again.
 
