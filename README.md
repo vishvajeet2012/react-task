@@ -4,7 +4,7 @@ Standalone ReactJS web app built with Vite and TypeScript. It includes responsiv
 
 ## Preview
 
-Live demo: deployment URL has not been provided yet.
+Live demo: [https://react-task-xi-peach.vercel.app/](https://react-task-xi-peach.vercel.app/)
 
 Local development preview: [http://localhost:5173](http://localhost:5173) after running `npm run dev`. This is a local preview, not a hosted demo.
 
